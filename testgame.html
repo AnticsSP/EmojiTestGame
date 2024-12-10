@@ -1,328 +1,312 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.2">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Movie Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        .game-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .player-setup {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 10px;
+        }
+        .emoji-display {
+            font-size: 40px;
+            margin: 20px 0;
+            min-height: 60px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            margin: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .score {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .message {
+            margin: 10px 0;
+            min-height: 20px;
+            color: #666;
+        }
+        .hint {
+            color: #ff9800;
+            font-style: italic;
+            margin: 10px 0;
+            min-height: 20px;
+        }
+        .leaderboard {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+        }
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        .leaderboard-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .leaderboard-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .current-player {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Emoji Movie Guessing Game&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-width: 800px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f0f0f0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.game-container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: white;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 0 10px rgba(0,0,0,0.1);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.player-setup {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #e8f5e9;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.emoji-display {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 40px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 20px 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>min-height: 60px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>input[type="text"] {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 300px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 2px solid #ddd;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>button {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #4CAF50;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>button:hover {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #45a049;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>button:disabled {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #cccccc;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: not-allowed;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.score {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 18px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 20px 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.message {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 10px 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>min-height: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #666;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.hint {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #ff9800;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-style: italic;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 10px 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>min-height: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.leaderboard {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f5f5f5;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.leaderboard-table {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-collapse: collapse;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.leaderboard-table th, .leaderboard-table td {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #ddd;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.leaderboard-table th {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #4CAF50;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.leaderboard-table tr:nth-child(even) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f2f2f2;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.current-player {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #4CAF50;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;🎬 Emoji Movie Guessing Game 🎮&lt;/h1&gt;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Player Setup Section --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="player-setup" class="player-setup"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Player Setup&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="player-name" placeholder="Enter your name"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="addPlayer()"&gt;Add Player&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="startGame()" id="start-game" disabled&gt;Start Game&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Game Container (Initially Hidden) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="game-container" class="game-container" style="display: none;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="score"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>Player: &lt;span id="current-player-name"&gt;&lt;/span&gt; |<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>Score: &lt;span id="score"&gt;0&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="emoji-display" id="emoji-display"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hint" id="hint-display"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" id="guess-input" placeholder="Enter movie title..." autocomplete="off"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button onclick="checkGuess()"&gt;Submit Guess&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button id="hint-button" onclick="showHint()"&gt;Get Hint&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="nextMovie()"&gt;Skip / Next Movie&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="message" id="message"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Leaderboard Section --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="leaderboard" class="leaderboard"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;🏆 Leaderboard&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;table class="leaderboard-table"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;thead&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;th&gt;Rank&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;th&gt;Player&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;th&gt;Score&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/thead&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tbody id="leaderboard-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tbody&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Movie database: [emoji representation, movie title, hint]</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const movieDatabase = [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🦁👑', 'The Lion King', 'A young cub becomes king of the Pride Lands'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['👻👻👻', 'Ghostbusters', 'Who you gonna call?'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🧙‍♂️💍', 'The Lord of the Rings', 'One ring to rule them all'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🦈🌊', 'Jaws', 'You\'re gonna need a bigger boat'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['👨‍🚀🌌', 'Interstellar', 'Love transcends space and time'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🚢❄️', 'Titanic', 'A tragic love story on a doomed voyage'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🦖🏝️', 'Jurassic Park', 'Life finds a way'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🤖❤️🤖', 'Wall-E', 'A lonely robot falls in love on a wasteland Earth'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🎭👻🎭', 'Phantom of the Opera', 'A mysterious figure haunts an opera house'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🧙‍♂️⚡️👦', 'Harry Potter', 'The boy who lived'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🦇👨', 'Batman', 'Gotham City\'s dark knight'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🕷️🧑', 'Spider-Man', 'With great power comes great responsibility'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['⭐️⚔️', 'Star Wars', 'May the force be with you'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🏃‍♂️🍫', 'Forrest Gump', 'Life is like a box of chocolates'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🎪🐘🎯', 'Dumbo', 'A flying elephant with big ears'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🧊👸', 'Frozen', 'Let it go!'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🔴💊🔵💊', 'The Matrix', 'Red pill or blue pill?'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🦍🗽', 'King Kong', 'A giant ape climbs the Empire State Building'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🐟🔍', 'Finding Nemo', 'A father fish searches the ocean for his son'],</p>
-<p class="p1"><span class="Apple-converted-space">            </span>['🎭🦁', 'The Lion King', 'Hakuna Matata']</p>
-<p class="p1"><span class="Apple-converted-space">        </span>];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>let players = [];</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let currentPlayerIndex = 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let currentMovieIndex = -1;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let currentMovie = null;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let hintAvailable = true;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Player class</p>
-<p class="p1"><span class="Apple-converted-space">        </span>class Player {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>constructor(name) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>this.name = name;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>this.score = 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Add new player</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function addPlayer() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const nameInput = document.getElementById('player-name');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const name = nameInput.value.trim();</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (name &amp;&amp; !players.some(p =&gt; p.name === name)) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>players.push(new Player(name));</p>
-<p class="p1"><span class="Apple-converted-space">                </span>nameInput.value = '';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>updateLeaderboard();</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Enable start game button if we have at least one player</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('start-game').disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Start game</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function startGame() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('player-setup').style.display = 'none';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('game-container').style.display = 'block';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>currentPlayerIndex = 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>updateCurrentPlayer();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>nextMovie();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Update current player display</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function updateCurrentPlayer() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const currentPlayer = players[currentPlayerIndex];</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('current-player-name').textContent = currentPlayer.name;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('score').textContent = currentPlayer.score;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Switch to next player</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function switchPlayer() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>currentPlayerIndex = (currentPlayerIndex + 1) % players.length;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>updateCurrentPlayer();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Update leaderboard</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function updateLeaderboard() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const leaderboardBody = document.getElementById('leaderboard-body');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const sortedPlayers = [...players].sort((a, b) =&gt; b.score - a.score);</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>leaderboardBody.innerHTML = '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>sortedPlayers.forEach((player, index) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const row = document.createElement('tr');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const isCurrentPlayer = player === players[currentPlayerIndex];</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (isCurrentPlayer) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>row.classList.add('current-player');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>row.innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;td&gt;${index + 1}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;td&gt;${player.name}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;td&gt;${player.score}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>leaderboardBody.appendChild(row);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Initialize input event listener for Enter key</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('guess-input').addEventListener('keypress', function(e) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (e.key === 'Enter') {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>checkGuess();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('player-name').addEventListener('keypress', function(e) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (e.key === 'Enter') {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>addPlayer();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Function to get a random movie</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function getRandomMovie() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let newIndex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>do {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>newIndex = Math.floor(Math.random() * movieDatabase.length);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} while (newIndex === currentMovieIndex);</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>currentMovieIndex = newIndex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>return movieDatabase[currentMovieIndex];</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Function to display next movie</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function nextMovie() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>currentMovie = getRandomMovie();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('emoji-display').textContent = currentMovie[0];</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('guess-input').value = '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('message').textContent = '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('hint-display').textContent = '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('guess-input').focus();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>hintAvailable = true;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('hint-button').disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>switchPlayer();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>updateLeaderboard();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Function to show hint</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function showHint() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (hintAvailable) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('hint-display').textContent = '💡 Hint: ' + currentMovie[2];</p>
-<p class="p1"><span class="Apple-converted-space">                </span>hintAvailable = false;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('hint-button').disabled = true;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Function to check the guess</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function checkGuess() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const guessInput = document.getElementById('guess-input');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const message = document.getElementById('message');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const guess = guessInput.value.trim().toLowerCase();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const correctAnswer = currentMovie[1].toLowerCase();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (guess === correctAnswer) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>players[currentPlayerIndex].score++;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>updateCurrentPlayer();</p>
-<p class="p1"><span class="Apple-converted-space">                </span>updateLeaderboard();</p>
-<p class="p1"><span class="Apple-converted-space">                </span>message.textContent = '✅ Correct! Well done!';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>message.style.color = 'green';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(nextMovie, 1500);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>message.textContent = '❌ Try again!';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>message.style.color = 'red';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+    <h1>🎬 Emoji Movie Guessing Game 🎮</h1>
+    
+    <!-- Player Setup Section -->
+    <div id="player-setup" class="player-setup">
+        <h2>Player Setup</h2>
+        <input type="text" id="player-name" placeholder="Enter your name">
+        <button onclick="addPlayer()">Add Player</button>
+        <button onclick="startGame()" id="start-game" disabled>Start Game</button>
+    </div>
+
+    <!-- Game Container (Initially Hidden) -->
+    <div id="game-container" class="game-container" style="display: none;">
+        <div class="score">
+            Player: <span id="current-player-name"></span> | 
+            Score: <span id="score">0</span>
+        </div>
+        <div class="emoji-display" id="emoji-display"></div>
+        <div class="hint" id="hint-display"></div>
+        <div>
+            <input type="text" id="guess-input" placeholder="Enter movie title..." autocomplete="off">
+            <button onclick="checkGuess()">Submit Guess</button>
+        </div>
+        <button id="hint-button" onclick="showHint()">Get Hint</button>
+        <button onclick="nextMovie()">Skip / Next Movie</button>
+        <div class="message" id="message"></div>
+    </div>
+
+    <!-- Leaderboard Section -->
+    <div id="leaderboard" class="leaderboard">
+        <h2>🏆 Leaderboard</h2>
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Movie database: [emoji representation, movie title, hint]
+        const movieDatabase = [
+            ['🦁👑', 'The Lion King', 'A young cub becomes king of the Pride Lands'],
+            ['👻👻👻', 'Ghostbusters', 'Who you gonna call?'],
+            ['🧙‍♂️💍', 'The Lord of the Rings', 'One ring to rule them all'],
+            ['🦈🌊', 'Jaws', 'You\'re gonna need a bigger boat'],
+            ['👨‍🚀🌌', 'Interstellar', 'Love transcends space and time'],
+            ['🚢❄️', 'Titanic', 'A tragic love story on a doomed voyage'],
+            ['🦖🏝️', 'Jurassic Park', 'Life finds a way'],
+            ['🤖❤️🤖', 'Wall-E', 'A lonely robot falls in love on a wasteland Earth'],
+            ['🎭👻🎭', 'Phantom of the Opera', 'A mysterious figure haunts an opera house'],
+            ['🧙‍♂️⚡️👦', 'Harry Potter', 'The boy who lived'],
+            ['🦇👨', 'Batman', 'Gotham City\'s dark knight'],
+            ['🕷️🧑', 'Spider-Man', 'With great power comes great responsibility'],
+            ['⭐️⚔️', 'Star Wars', 'May the force be with you'],
+            ['🏃‍♂️🍫', 'Forrest Gump', 'Life is like a box of chocolates'],
+            ['🎪🐘🎯', 'Dumbo', 'A flying elephant with big ears'],
+            ['🧊👸', 'Frozen', 'Let it go!'],
+            ['🔴💊🔵💊', 'The Matrix', 'Red pill or blue pill?'],
+            ['🦍🗽', 'King Kong', 'A giant ape climbs the Empire State Building'],
+            ['🐟🔍', 'Finding Nemo', 'A father fish searches the ocean for his son'],
+            ['🎭🦁', 'The Lion King', 'Hakuna Matata']
+        ];
+
+        let players = [];
+        let currentPlayerIndex = 0;
+        let currentMovieIndex = -1;
+        let currentMovie = null;
+        let hintAvailable = true;
+
+        // Player class
+        class Player {
+            constructor(name) {
+                this.name = name;
+                this.score = 0;
+            }
+        }
+
+        // Add new player
+        function addPlayer() {
+            const nameInput = document.getElementById('player-name');
+            const name = nameInput.value.trim();
+            
+            if (name && !players.some(p => p.name === name)) {
+                players.push(new Player(name));
+                nameInput.value = '';
+                updateLeaderboard();
+                
+                // Enable start game button if we have at least one player
+                document.getElementById('start-game').disabled = false;
+            }
+        }
+
+        // Start game
+        function startGame() {
+            document.getElementById('player-setup').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+            currentPlayerIndex = 0;
+            updateCurrentPlayer();
+            nextMovie();
+        }
+
+        // Update current player display
+        function updateCurrentPlayer() {
+            const currentPlayer = players[currentPlayerIndex];
+            document.getElementById('current-player-name').textContent = currentPlayer.name;
+            document.getElementById('score').textContent = currentPlayer.score;
+        }
+
+        // Switch to next player
+        function switchPlayer() {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            updateCurrentPlayer();
+        }
+
+        // Update leaderboard
+        function updateLeaderboard() {
+            const leaderboardBody = document.getElementById('leaderboard-body');
+            const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
+            
+            leaderboardBody.innerHTML = '';
+            sortedPlayers.forEach((player, index) => {
+                const row = document.createElement('tr');
+                const isCurrentPlayer = player === players[currentPlayerIndex];
+                if (isCurrentPlayer) {
+                    row.classList.add('current-player');
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${player.name}</td>
+                    <td>${player.score}</td>
+                `;
+                leaderboardBody.appendChild(row);
+            });
+        }
+
+        // Initialize input event listener for Enter key
+        document.getElementById('guess-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkGuess();
+            }
+        });
+
+        document.getElementById('player-name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addPlayer();
+            }
+        });
+
+        // Function to get a random movie
+        function getRandomMovie() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * movieDatabase.length);
+            } while (newIndex === currentMovieIndex);
+            
+            currentMovieIndex = newIndex;
+            return movieDatabase[currentMovieIndex];
+        }
+
+        // Function to display next movie
+        function nextMovie() {
+            currentMovie = getRandomMovie();
+            document.getElementById('emoji-display').textContent = currentMovie[0];
+            document.getElementById('guess-input').value = '';
+            document.getElementById('message').textContent = '';
+            document.getElementById('hint-display').textContent = '';
+            document.getElementById('guess-input').focus();
+            hintAvailable = true;
+            document.getElementById('hint-button').disabled = false;
+            switchPlayer();
+            updateLeaderboard();
+        }
+
+        // Function to show hint
+        function showHint() {
+            if (hintAvailable) {
+                document.getElementById('hint-display').textContent = '💡 Hint: ' + currentMovie[2];
+                hintAvailable = false;
+                document.getElementById('hint-button').disabled = true;
+            }
+        }
+
+        // Function to check the guess
+        function checkGuess() {
+            const guessInput = document.getElementById('guess-input');
+            const message = document.getElementById('message');
+            const guess = guessInput.value.trim().toLowerCase();
+            const correctAnswer = currentMovie[1].toLowerCase();
+
+            if (guess === correctAnswer) {
+                players[currentPlayerIndex].score++;
+                updateCurrentPlayer();
+                updateLeaderboard();
+                message.textContent = '✅ Correct! Well done!';
+                message.style.color = 'green';
+                setTimeout(nextMovie, 1500);
+            } else {
+                message.textContent = '❌ Try again!';
+                message.style.color = 'red';
+            }
+        }
+    </script>
 </body>
 </html>
